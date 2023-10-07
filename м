@@ -1,0 +1,41 @@
+Вот пример кода на Qt, который создает файл .sh и выполняет его:
+
+cpp
+Copy code
+#include <QFile>
+#include <QTextStream>
+#include <QProcess>
+
+int main(int argc, char *argv[]) {
+    Q_UNUSED(argc);
+    Q_UNUSED(argv);
+
+    // Создаем файл .sh
+    QFile scriptFile("script.sh");
+    if (!scriptFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Не удалось создать файл .sh";
+        return 1;
+    }
+
+    // Записываем команды в файл .sh
+    QTextStream out(&scriptFile);
+    out << "#!/bin/bash\n";
+    out << "echo 'Hello, World!'\n";
+    scriptFile.close();
+
+    // Делаем файл .sh исполняемым
+    QProcess::execute("chmod +x script.sh");
+
+    // Выполняем файл .sh
+    QProcess::execute("./script.sh");
+
+    return 0;
+}
+Этот код создает файл "script.sh" в текущем рабочем каталоге, записывает в него команду "echo 'Hello, World!'", делает файл исполняемым с помощью команды "chmod +x" и затем выполняет файл с помощью команды "./script.sh".
+
+Убедитесь, что у вас установлен Qt и добавьте необходимые модули в файл .pro, например:
+
+Plain Text
+Copy code
+QT += core
+Затем скомпилируйте и запустите программу, и она создаст файл .sh и выполнит его.
